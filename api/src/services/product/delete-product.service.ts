@@ -1,4 +1,4 @@
-import prisma from "@/prisma";
+import prisma from "../../prisma";
 
 export const deleteProductService = async (id: number) => {
   try {
@@ -11,10 +11,12 @@ export const deleteProductService = async (id: number) => {
       throw new Error("Product not found !");
     }
 
-    return await prisma.product.update({
+    const deleteProduct = await prisma.product.update({
       where: { id },
       data: { deletedAt: new Date() },
     });
+
+    return { message: "Delete address success", data: deleteProduct };
   } catch (error) {
     throw error;
   }

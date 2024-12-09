@@ -6,6 +6,11 @@ export const getProductListService = async (userId: number) => {
       where: { userId: userId },
       include: { user: true },
     });
+
+    if (!product.length) {
+      throw new Error("Product not found!!");
+    }
+
     return product;
   } catch (error) {
     throw error;

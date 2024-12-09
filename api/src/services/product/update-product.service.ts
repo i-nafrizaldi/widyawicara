@@ -1,4 +1,4 @@
-import prisma from "@/prisma";
+import prisma from "../../prisma";
 import { join } from "path";
 import fs from "fs";
 import { Product } from "@prisma/client";

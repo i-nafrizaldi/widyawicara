@@ -1,9 +1,9 @@
-import { createProductService } from "@/services/product/create-product.service";
 import { NextFunction, Request, Response } from "express";
 import { getProductListService } from "../services/product/get-productList.service";
-import { getProductService } from "@/services/product/get-product.service";
-import { updateProductService } from "@/services/product/update-product.service";
-import { deleteProductService } from "@/services/product/delete-product.service";
+import { getProductService } from "../services/product/get-product.service";
+import { updateProductService } from "../services/product/update-product.service";
+import { deleteProductService } from "../services/product/delete-product.service";
+import { createProductService } from "../services/product/create-product.service";
 
 export class ProductController {
   // create product
@@ -14,11 +14,13 @@ export class ProductController {
   ) {
     try {
       const files = req.files as Express.Multer.File[];
-      if (!files.length) {
+      const userId = res.locals.user.id;
+
+      if (!files?.length) {
         throw new Error("No File Uploaded");
       }
-
-      const result = await createProductService(req.body, files[0]);
+      const result = await createProductService(userId, req.body, files[0]);
+      console.log("inifilecontrol", files);
 
       return res.status(201).send(result);
     } catch (error) {
@@ -33,8 +35,10 @@ export class ProductController {
     next: NextFunction
   ) {
     try {
-      const userId = req.body.user.id;
-      const result = await getProductListService(Number(userId));
+      const userId = res.locals.user.id;
+      console.log(userId);
+
+      const result = await getProductListService(userId);
 
       return res.status(200).send(result);
     } catch (error) {
@@ -82,7 +86,7 @@ export class ProductController {
 
       const result = await deleteProductService(Number(id));
 
-      return res.status(200).send({ message: "Delete Product Success !!" });
+      return res.status(200).send(result);
     } catch (error) {
       next(error);
     }
