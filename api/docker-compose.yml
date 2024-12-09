@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  db:
+    image: mysql
+    container_name: mysql_container
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=amazink123
+      - MYSQL_DATABASE=amazink
+
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./docker/mysql_data:/var/lib/mysql
+
