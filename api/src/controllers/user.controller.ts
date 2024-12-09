@@ -1,9 +1,19 @@
+import { registerService } from "../services/user/register.service";
 import { updateUserService } from "..//services/user/update-user.service";
 import { loginService } from "../services/user/login.service";
 
 import { NextFunction, Request, Response } from "express";
 
 export class UserController {
+  async registerController(req: Request, res: Response, next: NextFunction) {
+    try {
+      const result = await registerService(req.body);
+
+      return res.status(200).send(result);
+    } catch (error) {
+      next(error);
+    }
+  }
   async updateUserController(req: Request, res: Response, next: NextFunction) {
     try {
       const id = res.locals.user.id;

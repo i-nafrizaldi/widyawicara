@@ -13,6 +13,7 @@ export class UserRouter {
   }
 
   private initializeRouters(): void {
+    this.router.post("/register", this.userController.registerController);
     this.router.patch(
       "/profile",
       verifyToken,
